@@ -10,6 +10,9 @@ module SessionsHelper
     cookies.permanent[:remember_token] = user.remember_token
   end
 
+  def current_user?(user)
+    user == current_user
+  end
   # return the user corresponding to the remember token cookie
   def current_user
     return @current_user if @current_user
@@ -41,5 +44,19 @@ module SessionsHelper
     forget(current_user)
     session.delete(:user_id)
     @current_user = nil
+  end
+
+  # friendly forwarding - stored location of expected page and redirect to it after login
+  # evaluate to session[:forwarding_url] unless it's nil
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete :forwarding_url
+  end
+
+  # stores the URL trying to be accessed.
+  # only use for GET to prevent storing submiting a form when not log in
+  # original_url and get? is contained Request object of Rails
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
   end
 end
