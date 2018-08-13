@@ -61,7 +61,7 @@ Style/RaiseArgs:
   Enabled: false
 
 # Hashの最後のカンマを許容
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInHashLiteral:
   Enabled: false
 
 # Hashの最後のカンマを許容
