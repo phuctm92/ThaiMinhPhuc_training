@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def new
@@ -51,16 +52,6 @@ class UsersController < ApplicationController
 
   def find_user
     @user = User.find(params[:id])
-  end
-
-  #confirm a logged-in user
-  # if user don't login and they're in GET request, it store this request to session[:forwarding_url]
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = "Please log in"
-      redirect_to login_url
-    end
   end
 
   # confirm the correct user
